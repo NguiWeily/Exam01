@@ -1,0 +1,80 @@
+Assignment name  : ft_itoa
+Expected files   : ft_itoa.c
+Allowed functions: malloc
+--------------------------------------------------------------------------------
+
+Write a function that takes an int and converts it to a null-terminated string.
+The function returns the result in a char array that you must allocate.
+
+Your function must be declared as follows:
+
+char	*ft_itoa(int nbr);
+
+Here's an implementation of the `ft_itoa` function in C:
+
+```c
+#include <stdlib.h>
+
+char *ft_itoa(int nbr) {
+    int len = 0;
+    int temp = nbr;
+    int sign = 1;
+    
+    if (nbr == 0) {
+        char *result = malloc(2 * sizeof(char));
+        if (result == NULL) {
+            return NULL;
+        }
+        result[0] = '0';
+        result[1] = '\0';
+        return result;
+    }
+    
+    if (nbr < 0) {
+        len++;
+        sign = -1;
+        temp = -temp;
+    }
+    
+    while (temp != 0) {
+        len++;
+        temp /= 10;
+    }
+    
+    char *result = malloc((len + 1) * sizeof(char));
+    if (result == NULL) {
+        return NULL;
+    }
+    
+    result[len] = '\0';
+    
+    while (nbr != 0) {
+        len--;
+        result[len] = '0' + (nbr % 10);
+        nbr /= 10;
+    }
+    
+    if (sign == -1) {
+        len--;
+        result[len] = '-';
+    }
+    
+    return result;
+}
+```
+
+In this implementation, the `ft_itoa` function takes an integer `nbr` as an argument and converts it into a null-terminated string. The function first checks if `nbr` is equal to 0. If it is, it allocates memory for a char array of size 2 (1 for the '0' character and 1 for the null terminator), sets the '0' character at index 0, and adds the null terminator at index 1. The function then returns the allocated array.
+
+If `nbr` is not equal to 0, the function proceeds to calculate the length of the resulting string. It keeps track of the sign of the number using the `sign` variable (1 for positive, -1 for negative). It iteratively divides `temp` (initialized as `nbr`) by 10 and increments the `len` variable until `temp` becomes 0.
+
+Next, the function allocates memory for the resulting string using `malloc` with a size of `(len + 1)` to account for the null terminator. If the allocation fails, the function returns `NULL`.
+
+The function then sets the null terminator at the last index of the `result` array.
+
+The remaining part of the function is responsible for populating the `result` array with the digits of the number. It iteratively divides `nbr` by 10, takes the remainder, and adds it to the corresponding index of the `result` array by converting it to the ASCII representation using the '0' character. It then updates `nbr` by dividing it by 10. This process continues until `nbr` becomes 0.
+
+Finally, if the original number was negative, the function adds a '-' character at the appropriate index in the `result` array.
+
+The function returns the `result` array, which contains the converted null-terminated string representation of the input integer.
+
+Remember to free the allocated memory using `free` when you no longer need the converted string to avoid memory leaks.
