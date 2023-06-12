@@ -1,0 +1,64 @@
+Assignment name  : first_word
+Expected files   : first_word.c
+Allowed functions: write
+--------------------------------------------------------------------------------
+
+Write a program that takes a string and displays its first word, followed by a
+newline.
+
+A word is a section of string delimited by spaces/tabs or by the start/end of
+the string.
+
+If the number of parameters is not 1, or if there are no words, simply display
+a newline.
+
+Examples:
+
+$> ./first_word "FOR PONY" | cat -e
+FOR$
+$> ./first_word "this        ...       is sparta, then again, maybe    not" | cat -e
+this$
+$> ./first_word "   " | cat -e
+$
+$> ./first_word "a" "b" | cat -e
+$
+$> ./first_word "  lorem,ipsum  " | cat -e
+lorem,ipsum$
+$>
+
+Here's an example implementation of the `first_word` program in C:
+
+```c
+#include <unistd.h>
+
+int is_separator(char c) {
+    return c == ' ' || c == '\t';
+}
+
+void first_word(char *str) {
+    int i = 0;
+    while (is_separator(str[i])) {
+        i++;
+    }
+    
+    while (str[i] && !is_separator(str[i])) {
+        write(1, &str[i], 1);
+        i++;
+    }
+}
+
+int main(int argc, char *argv[]) {
+    if (argc == 2) {
+        first_word(argv[1]);
+    }
+    
+    write(1, "\n", 1);
+    return 0;
+}
+```
+
+In this program, we define a helper function `is_separator` that checks if a character is a space or tab. The `first_word` function takes a string `str` as input and iterates over it. It skips any leading separators (spaces or tabs) and then prints the characters of the first word until it encounters a separator or the end of the string.
+
+In the `main` function, we check if the program was called with exactly one argument (excluding the program name itself). If so, we call the `first_word` function with the argument. After that, we write a newline character to the standard output.
+
+You can compile and run this program, providing a string as the argument, and it will display the first word of the string followed by a newline. If the number of arguments is not 1 or if there are no words in the string, it will simply display a newline.
