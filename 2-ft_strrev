@@ -1,0 +1,47 @@
+Assignment name  : ft_strrev
+Expected files   : ft_strrev.c
+Allowed functions: 
+--------------------------------------------------------------------------------
+
+Write a function that reverses (in-place) a string.
+
+It must return its parameter.
+
+Your function must be declared as follows:
+
+char    *ft_strrev(char *str);
+
+Here's an example implementation of the `ft_strrev` function in C:
+
+```c
+char *ft_strrev(char *str) {
+    int len = 0;
+    char *start = str;
+    char *end = str;
+
+    while (*end)
+    {
+        end++;
+        len++;
+    }
+
+    end--;
+
+    while (start < end)
+    {
+        char temp = *start;
+        *start = *end;
+        *end = temp;
+        start++;
+        end--;
+    }
+
+    return str;
+}
+```
+
+In this implementation, we use two pointers, `start` and `end`, to traverse the string from both ends. We calculate the length of the string by iterating over it with the `end` pointer. Then, we decrement the `end` pointer to point to the last character of the string.
+
+We then use a loop to swap characters between `start` and `end` pointers until they meet in the middle. This effectively reverses the string in-place. Finally, we return the modified string.
+
+You can use this function to reverse a string by passing it as an argument and storing the returned value.
