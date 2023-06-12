@@ -1,0 +1,24 @@
+Assignment name  : only_z
+Expected files   : only_z.c
+Allowed functions: write
+--------------------------------------------------------------------------------
+
+Write a program that displays a 'z' character on the standard output.
+
+Here's an example implementation of the `only_z` program in C:
+
+```c
+#include <unistd.h>
+
+int main() {
+    char z = 'z';
+    write(1, &z, 1);
+    return 0;
+}
+```
+
+In this program, we use the `write` function from the `unistd.h` header to output the character 'z' to the standard output (file descriptor 1). The `write` function takes three arguments: the file descriptor to write to, a pointer to the buffer containing the data to write, and the number of bytes to write. In this case, we pass 1 as the number of bytes to write, indicating that we want to write only one character.
+
+After writing the character 'z' to the standard output, the program returns 0 to indicate successful execution.
+
+When you compile and run this program, it will display the character 'z' on the standard output.
