@@ -1,0 +1,58 @@
+Assignment name  : wdmatch
+Expected files   : wdmatch.c
+Allowed functions: write
+--------------------------------------------------------------------------------
+
+Write a program that takes two strings and checks whether it's possible to
+write the first string with characters from the second string, while respecting
+the order in which these characters appear in the second string.
+
+If it's possible, the program displays the string, followed by a \n, otherwise
+it simply displays a \n.
+
+If the number of arguments is not 2, the program displays a \n.
+
+Examples:
+
+$>./wdmatch "faya" "fgvvfdxcacpolhyghbreda" | cat -e
+faya$
+$>./wdmatch "faya" "fgvvfdxcacpolhyghbred" | cat -e
+$
+$>./wdmatch "quarante deux" "qfqfsudf arzgsayns tsregfdgs sjytdekuoixq " | cat -e
+quarante deux$
+$>./wdmatch "error" rrerrrfiiljdfxjyuifrrvcoojh | cat -e
+$
+$>./wdmatch | cat -e
+$
+
+Here's an example implementation of the `wdmatch` program in C:
+
+```c
+#include <unistd.h>
+
+int wdmatch(char *s1, char *s2) {
+    while (*s1) {
+        if (*s1 == *s2)
+            s2++;
+        s1++;
+    }
+    return (*s2 == '\0');
+}
+
+int main(int argc, char **argv) {
+    if (argc == 3) {
+        if (wdmatch(argv[1], argv[2]))
+            write(1, argv[1], strlen(argv[1]));
+    }
+    write(1, "\n", 1);
+    return 0;
+}
+```
+
+In this implementation, the `wdmatch` function takes two strings as arguments. It iterates over the characters of the first string (`s1`) and checks if each character matches the corresponding character in the second string (`s2`). If there is a match, it advances the pointer `s2` to the next character. If all characters in the first string are matched in the second string, the function returns 1; otherwise, it returns 0.
+
+The `main` function checks if there are exactly two arguments provided (the two strings). If so, it calls the `wdmatch` function with the arguments. If the `wdmatch` function returns 1, indicating that the first string can be formed using characters from the second string in the correct order, it writes the first string to the standard output using the `write` function. Finally, it writes a newline character to the standard output.
+
+If the number of arguments is not 2, the program simply writes a newline character to the standard output.
+
+You can compile and run this program using a C compiler, such as `gcc`.
